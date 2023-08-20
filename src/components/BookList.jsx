@@ -27,7 +27,7 @@ BookList.propTypes = {
       title: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
       author: PropTypes.string.isRequired,
-      completionPercentage: PropTypes.number.isRequired,
+      completionPercentage: PropTypes.string.isRequired,
       currentChapter: PropTypes.string.isRequired,
     }),
   ).isRequired,
