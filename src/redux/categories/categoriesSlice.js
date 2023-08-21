@@ -11,4 +11,7 @@ const categoriesSlice = createSlice({
   reducers: {},
 });
 
+// Custom reducer function that returns the status
+export const statusReducer = (state) => state.status;
+
 export default categoriesSlice.reducer;
