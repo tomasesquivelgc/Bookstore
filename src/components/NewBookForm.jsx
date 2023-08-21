@@ -13,7 +13,7 @@ function BookForm({ onAddBook }) {
       title,
       author,
       category: 'Action',
-      completionPercentage: '0',
+      completionPercentage: '0%',
       currentChapter: 'Not started',
       id: Date.now(), // Generate a unique ID (you can use a library for more robust IDs)
     };
