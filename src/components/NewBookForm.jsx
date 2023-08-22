@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { addBook } from '../redux/books/booksSlice';
+import AddButton from './AddButton';
 
-function BookForm({ onAddBook }) {
+function BookForm() {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleAddBook = (e) => {
     e.preventDefault();
 
-    // Create a new book object with the form input values
-    const newBook = {
+    const book = {
+      itemId: uuidv4(),
       title,
       author,
       category: 'Action',
-      completionPercentage: '0',
-      currentChapter: 'Not started',
-      id: Date.now(), // Generate a unique ID (you can use a library for more robust IDs)
     };
 
-    // Call the onAddBook function passed from the parent component
-    onAddBook(newBook);
+    dispatch(addBook(book));
 
     // Clear the form inputs
     setTitle('');
@@ -27,7 +27,7 @@ function BookForm({ onAddBook }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleAddBook}>
       <h3>Add a New Book</h3>
       <label htmlFor="title">
         Title:
@@ -37,13 +37,9 @@ function BookForm({ onAddBook }) {
         Author:
         <input type="text" id="author" value={author} onChange={(e) => setAuthor(e.target.value)} />
       </label>
-      <button type="submit">Add Book</button>
+      <AddButton onClick={handleAddBook} />
     </form>
   );
 }
-
-BookForm.propTypes = {
-  onAddBook: PropTypes.func.isRequired,
-};
 
 export default BookForm;
