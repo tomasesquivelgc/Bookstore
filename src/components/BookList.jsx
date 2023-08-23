@@ -1,28 +1,42 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Book from './Book';
-import { selectBooks, removeBook } from '../redux/books/booksSlice';
+import { selectBooks, fetchBooks, removeBook } from '../redux/books/booksSlice';
 
 function BookList() {
   const books = useSelector(selectBooks);
   const dispatch = useDispatch();
 
-  const handleRemoveBook = (itemId) => {
-    dispatch(removeBook(itemId));
+  useEffect(() => {
+    dispatch(fetchBooks());
+  }, [dispatch]);
+
+  const handleRemoveBook = async (itemId) => {
+    try {
+      dispatch(removeBook(itemId));
+    } catch (error) {
+      throw new Error('Failed to remove book:', error);
+    }
   };
+
   return (
-    <ul>
-      {books.map((book) => (
-        <Book
-          key={book.itemId}
-          itemId={book.itemId}
-          title={book.title}
-          author={book.author}
-          category={book.category}
-          onRemove={handleRemoveBook}
-        />
-      ))}
-    </ul>
+    <div className="bookContainer">
+      <ul className="list">
+        {Object.keys(books).map((itemId) => {
+          const book = books[itemId][0];
+          return (
+            <Book
+              key={itemId}
+              itemId={itemId}
+              title={book.title}
+              author={book.author}
+              category={book.category}
+              onRemove={handleRemoveBook}
+            />
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
